@@ -6,7 +6,7 @@ import {ConfirmPage} from "../../Pages/Confirm/iindex";
 import {CartPage} from "../../Pages/Cart";
 import {AuthPage} from "../../Pages/Auth";
 
-export class Routes extends React.Component<any, any> {
+export class Routes extends React.Component {
     render() {
         return (
             <Switch>

@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "module": "CommonJS",
+    "module": "ES6",
     "target": "ES5",
     "noImplicitAny": false,
     "removeComments": true,
@@ -8,6 +8,7 @@
     "sourceMap": true,
     "jsx": "react",
     "lib": ["dom"],
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true
   }
 }
