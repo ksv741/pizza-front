@@ -1,6 +1,11 @@
 export type LangType = 'eng' | 'rus' | 'deu'
 export type CurrencyType = 'eur' | 'usd' | 'rub'
 
+export type AppSettingsType = {
+    lang: LangType,
+    currency: CurrencyType
+}
+
 export type PizzaType = {
     alias: string,
     title: string,
@@ -14,7 +19,10 @@ export type PriceType = {
     currency: CurrencyType
 }
 
+export type PizzaOrderType = {
+    [alias: string]: number
+}
+
 export type OrderType = {
-    pizza: PizzaType,
-    count: number
+    order: PizzaOrderType
 }

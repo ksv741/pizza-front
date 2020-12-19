@@ -1,19 +1,20 @@
 import React from "react";
-import {Navbar, DropdownButton, Dropdown, Button} from "react-bootstrap";
 import { Link } from "react-router-dom";
-import {CurrencyType, LangType, OrderType} from "../../AppTypes";
 import {AppCurrencies, AppLanguages} from "../../Utils/app.utils";
+import {CurrencyType, LangType, OrderType} from "../../AppTypes";
+import {Navbar, DropdownButton, Dropdown, Button} from "react-bootstrap";
+import {connect} from "react-redux";
 
 interface HeaderProps {
     lang: LangType,
     onChangeLang: (lang: LangType) => void,
     currency: CurrencyType,
     onChangeCurrency: (cur: CurrencyType) => void,
-    order: OrderType[]
+    order: OrderType
 }
 
 // TODO add styles !!!
-export class Header extends React.Component<HeaderProps> {
+class Header extends React.Component<HeaderProps> {
 
     constructor(props) {
         super(props);
@@ -27,7 +28,7 @@ export class Header extends React.Component<HeaderProps> {
                 key={lang}
                 as="button"
                 active={this.props.lang == lang}
-                onClick={this.props.onChangeLang.bind(this, lang)}
+                onClick={() => this.props.onChangeLang(lang)}
             >
                 {AppLanguages[lang]}
             </Dropdown.Item>
@@ -42,7 +43,7 @@ export class Header extends React.Component<HeaderProps> {
                 key={cur}
                 as="button"
                 active={this.props.currency == cur}
-                onClick={this.props.onChangeCurrency.bind(this, cur)}
+                onClick={() => this.props.onChangeCurrency(cur)}
             >
                 {AppCurrencies[cur]}
             </Dropdown.Item>
@@ -50,11 +51,16 @@ export class Header extends React.Component<HeaderProps> {
     }
 
     getPizzaOrderCount = ():number => {
-        if (!this.props.order.length) return null
 
-        return this.props.order.reduce((allCount, pizza) => {
-            return allCount + pizza.count
+        if (!Object.values(this.props.order).length) return null
+
+        const ordersCount =  Object.values(this.props.order).reduce((allCount, currentCount) => {
+            // TODO fix
+            return allCount + currentCount
         }, 0)
+
+        if (ordersCount) return ordersCount
+        else return null
     }
 
     render() {
@@ -73,7 +79,8 @@ export class Header extends React.Component<HeaderProps> {
                 <Button variant="secondary">Sign</Button>
 
                 <div>
-                    Cart {this.getPizzaOrderCount()}
+                    Cart
+                    {this.getPizzaOrderCount()}
                 </div>
 
             </Navbar>
@@ -81,3 +88,22 @@ export class Header extends React.Component<HeaderProps> {
     }
 
 }
+
+function mapStateToProps(state) {
+    const {appSettingReducer, orderReducer} = state
+
+    return {
+        lang: appSettingReducer.lang,
+        currency: appSettingReducer.currency,
+        order: orderReducer.order
+    }
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        onChangeLang: (lang: LangType) => dispatch({type: 'CHANGE_LANG', lang}),
+        onChangeCurrency: (currency: CurrencyType) => dispatch({type: 'CHANGE_CURRENCY', currency})
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header)

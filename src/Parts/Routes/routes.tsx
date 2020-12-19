@@ -1,6 +1,6 @@
 import React from "react";
 import {Route, Switch } from "react-router-dom";
-import {MainPage} from "../../Pages/Main/Main";
+import MainPage from "../../Pages/Main/Main";
 import {OrderPage} from "../../Pages/Order/Order";
 import {ConfirmPage} from "../../Pages/Confirm/iindex";
 import {CartPage} from "../../Pages/Cart";

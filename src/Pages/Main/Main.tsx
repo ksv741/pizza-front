@@ -1,15 +1,22 @@
 import React from "react";
 import {OrderType, PizzaType} from "../../AppTypes";
-import {PizzaItem} from "./PizzaItem";
-import pepperoniImg from '../../static/images/pizza/pepperonni.png'
+import PizzaItem from "./PizzaItem";
+import pepperoniImg from '../../static/images/pizza/pepperoni.jpeg'
+import bavariaImg from '../../static/images/pizza/bavaria.jpeg'
 import margaritaImg from '../../static/images/pizza/margarita.png'
+import './main.scss'
+import classNames from "classnames";
+import {connect} from "react-redux";
 
 type MainPageState = {
     menu: PizzaType[],
-    order?: OrderType[]
 }
 
-export class MainPage extends React.Component<React.Props<any>, MainPageState> {
+type MainPageProps = {
+    order: OrderType
+}
+
+class MainPage extends React.Component<MainPageProps, MainPageState> {
 
     constructor(props) {
         super(props);
@@ -28,14 +35,14 @@ export class MainPage extends React.Component<React.Props<any>, MainPageState> {
                     image: pepperoniImg
                 },
                 {
-                    alias: 'Margarita',
-                    title: 'Margarita',
-                    description: 'Super Giper Margarita',
+                    alias: 'Bavaria',
+                    title: 'Bavaria',
+                    description: 'Super Giper Bavaria',
                     price: {
-                        summ: 9,
-                        currency: 'eur'
+                        summ: 13,
+                        currency: 'usd'
                     },
-                    image: margaritaImg
+                    image: bavariaImg
                 },
                 {
                     alias: 'Margarita',
@@ -48,7 +55,17 @@ export class MainPage extends React.Component<React.Props<any>, MainPageState> {
                     image: margaritaImg
                 },
                 {
-                    alias: 'Margarita',
+                    alias: 'Margarita2',
+                    title: 'Margarita',
+                    description: 'Super Giper Margarita',
+                    price: {
+                        summ: 9,
+                        currency: 'eur'
+                    },
+                    image: margaritaImg
+                },
+                {
+                    alias: 'Margarita3',
                     title: 'Margarita',
                     description: 'Super Giper Margarita',
                     price: {
@@ -61,15 +78,18 @@ export class MainPage extends React.Component<React.Props<any>, MainPageState> {
         }
     }
 
-    // TODO
-    getPizzaTypeOrder = (pizzaAlias: string): OrderType => {
-
-    }
 
     renderPizzaItems = (items: PizzaType[]) => {
         return items.map(pizza => {
             return (
-                <div className="col-4">
+                <div
+                    className={classNames
+                    (
+                        "col-4",
+                        'pizza-item'
+                    )}
+                    key={pizza.alias}
+                >
                     <PizzaItem item={pizza}/>
                 </div>
             )
@@ -87,3 +107,17 @@ export class MainPage extends React.Component<React.Props<any>, MainPageState> {
         );
     }
 }
+
+function mapStateToProps(state) {
+    return {
+        order: state.orderReducer.order
+    }
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        onAddPizza: (pizza: string) => dispatch({type: 'ADD_PIZZA', payload: pizza})
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(MainPage)

@@ -13,4 +13,4 @@ export enum AppCurrencies  {
 }
 
 // TODO Choose the one(!) general relative currency, and return converted price
-export const covertCurrency = (from: PriceType, to: CurrencyType): PriceType {}
+// export const covertCurrency = (from: PriceType, to: CurrencyType): PriceType {}

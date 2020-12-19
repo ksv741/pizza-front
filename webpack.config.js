@@ -36,7 +36,7 @@ module.exports = {
         path: path.resolve(__dirname, 'dist')
     },
     resolve: {
-        extensions: ['.js', '.ts', '.tsx', 'jpg', '.jpeg']
+        extensions: ['.js', '.ts', '.tsx', 'jpg', '.jpeg', '.png', '.scss', '.css']
     },
     plugins: [
         new HTMLWebpackPLugin({

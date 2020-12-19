@@ -1,48 +1,36 @@
 import React from "react";
-import {Header} from "./Parts/Header";
+import Header from "./Parts/Header";
 import {BrowserRouter} from "react-router-dom";
 import {Routes} from "./Parts/Routes/routes";
-import {CurrencyType, LangType, OrderType} from "./AppTypes";
+// import {CurrencyType, LangType, OrderType} from "./AppTypes";
+// import {connect} from "react-redux";
 
-type AppState = {
-    lang: LangType;
-    currency: CurrencyType;
-    order?: OrderType[]
-}
 
-export class App extends React.Component<React.ComponentProps<any>, AppState> {
-
-    constructor(props) {
-        super(props);
-
-        // Initial app state
-        this.state = {
-            lang: 'rus',
-            currency: 'rub',
-            order: []
-        }
-    }
-
-    changeLang = (lang: LangType) => {
-        this.setState({lang})
-    }
-
-    changeCurrency = (currency: CurrencyType) => {
-        this.setState({currency})
-    }
+export default class App extends React.Component<React.ComponentProps<any>, React.ComponentState> {
 
     render() {
         return(
             <BrowserRouter>
-                <Header
-                    lang={this.state.lang}
-                    currency={this.state.currency}
-                    onChangeLang={this.changeLang}
-                    onChangeCurrency={this.changeCurrency}
-                    order={this.state.order}
-                 />
+                <Header/>
                 <Routes/>
             </BrowserRouter>
         )
     }
 }
+
+// function mapStateToProps(state) {
+//     return {
+//         lang: state.lang,
+//         currency: state.currency
+//     }
+// }
+//
+// function mapDispatchToProps(dispatch) {
+//     return {
+//         onChangeLang: (lang: LangType) => dispatch({type: 'CHANGE_LANG', lang}),
+//         onChangeCurrency: (currency: CurrencyType) => dispatch({type: 'CHANGE_CURRENCY', currency})
+//     }
+// }
+//
+// export default connect(mapStateToProps, mapDispatchToProps)(App)
+
