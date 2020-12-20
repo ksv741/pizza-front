@@ -7,6 +7,8 @@ import {connect} from "react-redux";
 type PizzaItemProps = {
     item: PizzaType,
     onAddPizza: (alias: string, count: number) => void,
+    onAddToast: (alias: string) => void,
+    onRemoveToast: (alias: string) => void,
     order: PizzaOrderType,
 }
 
@@ -53,7 +55,11 @@ class PizzaItem extends React.Component<PizzaItemProps, any> {
 
                 <Button
                     variant="primary"
-                    onClick={() => this.props.onAddPizza(item.alias, 1)}
+                    onClick={() => {
+                        this.props.onAddPizza(item.alias, 1)
+                        this.props.onAddToast(item.alias)
+                        setTimeout(() => this.props.onRemoveToast(item.alias), 3000)
+                    }}
                 >
                     Add to cart
                     {renderCount}
@@ -87,7 +93,9 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        onAddPizza: (alias: string, count: number) => dispatch({type: 'ADD_PIZZA', payload: {alias, count}})
+        onAddPizza: (alias: string, count: number) => dispatch({type: 'ADD_PIZZA', payload: {alias, count}}),
+        onAddToast: (alias) => dispatch({type: 'ADD_TOAST_TO_ENQUEUE', payload: alias}),
+        onRemoveToast: (alias) => dispatch({type: 'REMOVE_TOAST_FROM_ENQUEUE', payload: alias}),
     }
 }
 

@@ -1,0 +1,14 @@
+.cart-table {
+  max-width: 50%;
+  margin-right: auto;
+  margin-left: auto;
+  td {
+    &:first-child{
+      width: 100px
+    }
+    max-height: 100px;
+    img {
+      max-width: 150px;
+    }
+  }
+}

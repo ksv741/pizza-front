@@ -4,6 +4,7 @@ import {AppCurrencies, AppLanguages} from "../../Utils/app.utils";
 import {CurrencyType, LangType, OrderType} from "../../AppTypes";
 import {Navbar, DropdownButton, Dropdown, Button} from "react-bootstrap";
 import {connect} from "react-redux";
+import CartPage from "../../Pages/Cart";
 
 interface HeaderProps {
     lang: LangType,
@@ -51,6 +52,7 @@ class Header extends React.Component<HeaderProps> {
     }
 
     getPizzaOrderCount = ():number => {
+        return 5
 
         if (!Object.values(this.props.order).length) return null
 
@@ -78,10 +80,12 @@ class Header extends React.Component<HeaderProps> {
 
                 <Button variant="secondary">Sign</Button>
 
-                <div>
+                <Link
+                    to={'/cart'}
+                >
                     Cart
                     {this.getPizzaOrderCount()}
-                </div>
+                </Link>
 
             </Navbar>
         )

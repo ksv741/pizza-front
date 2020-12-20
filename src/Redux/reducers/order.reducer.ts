@@ -2,7 +2,7 @@ import {OrderType} from "../../AppTypes";
 import {getFromLocalStorage, setToLocalStorage} from "../rootReducer";
 
 const initialState: OrderType = {
-    order: getFromLocalStorage('currentOrder')
+    order: getFromLocalStorage('currentOrder') || {}
 }
 
 export default function orderReducer(state = initialState, action) {
@@ -13,6 +13,8 @@ export default function orderReducer(state = initialState, action) {
                 ...state.order,
                 [action.payload.alias]: state.order[action.payload.alias] ? state.order[action.payload.alias] + action.payload.count : 1
             }
+            if (!order[action.payload.alias]) delete order[action.payload.alias]
+
             const newState = {
                 ...state,
                 order

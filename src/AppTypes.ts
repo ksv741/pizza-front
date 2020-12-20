@@ -3,7 +3,8 @@ export type CurrencyType = 'eur' | 'usd' | 'rub'
 
 export type AppSettingsType = {
     lang: LangType,
-    currency: CurrencyType
+    currency: CurrencyType,
+    menu: PizzaType[],
 }
 
 export type PizzaType = {

@@ -1,84 +1,18 @@
 import React from "react";
 import {OrderType, PizzaType} from "../../AppTypes";
 import PizzaItem from "./PizzaItem";
-import pepperoniImg from '../../static/images/pizza/pepperoni.jpeg'
-import bavariaImg from '../../static/images/pizza/bavaria.jpeg'
-import margaritaImg from '../../static/images/pizza/margarita.png'
 import './main.scss'
 import classNames from "classnames";
 import {connect} from "react-redux";
-
-type MainPageState = {
-    menu: PizzaType[],
-}
+import ToastItem from "./ToastItem";
 
 type MainPageProps = {
-    order: OrderType
+    order: OrderType,
+    menu: PizzaType[],
+    toastEnqueue: string[]
 }
 
-class MainPage extends React.Component<MainPageProps, MainPageState> {
-
-    constructor(props) {
-        super(props);
-
-        // TODO add some pizzas in menu
-        this.state = {
-            menu: [
-                {
-                    alias: 'Pepperoni',
-                    title: 'Pepperoni',
-                    description: 'Super Giper Pepperoni',
-                    price: {
-                        summ: 13,
-                        currency: 'usd'
-                    },
-                    image: pepperoniImg
-                },
-                {
-                    alias: 'Bavaria',
-                    title: 'Bavaria',
-                    description: 'Super Giper Bavaria',
-                    price: {
-                        summ: 13,
-                        currency: 'usd'
-                    },
-                    image: bavariaImg
-                },
-                {
-                    alias: 'Margarita',
-                    title: 'Margarita',
-                    description: 'Super Giper Margarita',
-                    price: {
-                        summ: 9,
-                        currency: 'eur'
-                    },
-                    image: margaritaImg
-                },
-                {
-                    alias: 'Margarita2',
-                    title: 'Margarita',
-                    description: 'Super Giper Margarita',
-                    price: {
-                        summ: 9,
-                        currency: 'eur'
-                    },
-                    image: margaritaImg
-                },
-                {
-                    alias: 'Margarita3',
-                    title: 'Margarita',
-                    description: 'Super Giper Margarita',
-                    price: {
-                        summ: 9,
-                        currency: 'eur'
-                    },
-                    image: margaritaImg
-                }
-            ]
-        }
-    }
-
-
+class MainPage extends React.Component<MainPageProps, React.ComponentState> {
     renderPizzaItems = (items: PizzaType[]) => {
         return items.map(pizza => {
             return (
@@ -96,11 +30,28 @@ class MainPage extends React.Component<MainPageProps, MainPageState> {
         })
     }
 
+    renderToastBlock = () => {
+        const currentEnqueue = this.props.toastEnqueue;
+
+        if (!currentEnqueue.length) return null
+
+        return currentEnqueue.map(toast => {
+            const pizza = this.props.menu.find(x => x.alias == toast)
+            return <ToastItem key={pizza.alias} item={pizza}/>
+        })
+    }
+
     render() {
         return (
-            <div className={'container'}>
+            <div
+                className={'container'}
+                style={{
+                    position: 'relative'
+                }}
+            >
+                {this.renderToastBlock()}
                 <div className="row">
-                    {this.renderPizzaItems(this.state.menu)}
+                    {this.renderPizzaItems(this.props.menu)}
                 </div>
             </div>
 
@@ -110,7 +61,9 @@ class MainPage extends React.Component<MainPageProps, MainPageState> {
 
 function mapStateToProps(state) {
     return {
-        order: state.orderReducer.order
+        order: state.orderReducer.order,
+        menu: state.appSettingReducer.menu,
+        toastEnqueue: state.toastReducer.enqueue
     }
 }
 
