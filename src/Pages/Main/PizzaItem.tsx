@@ -1,7 +1,7 @@
 import React from "react";
 import {Badge, Button, Card} from "react-bootstrap";
-import {PizzaOrderType, PizzaType} from "../../AppTypes";
-import {AppCurrencies} from "../../Utils/app.utils";
+import {CurrencyType, PizzaOrderType, PizzaType} from "../../AppTypes";
+import {AppCurrencies, covertCurrency, getConvertedPrice} from "../../Utils/app.utils";
 import {connect} from "react-redux";
 
 type PizzaItemProps = {
@@ -10,6 +10,7 @@ type PizzaItemProps = {
     onAddToast: (alias: string) => void,
     onRemoveToast: (alias: string) => void,
     order: PizzaOrderType,
+    currency: CurrencyType,
 }
 
 class PizzaItem extends React.Component<PizzaItemProps, any> {
@@ -49,8 +50,7 @@ class PizzaItem extends React.Component<PizzaItemProps, any> {
                         marginRight: 10
                     }}
                 >
-                    {item.price.summ}
-                    {AppCurrencies[item.price.currency]}
+                    {getConvertedPrice(item.price, this.props.currency)}
                 </Button>
 
                 <Button
@@ -87,7 +87,8 @@ class PizzaItem extends React.Component<PizzaItemProps, any> {
 
 function mapStateToProps(state) {
     return {
-        order: state.orderReducer.order
+        order: state.orderReducer.order,
+        currency: state.appSettingReducer.currency
     }
 }
 

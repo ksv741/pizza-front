@@ -3,6 +3,7 @@ import {getFromLocalStorage, setToLocalStorage} from "../rootReducer";
 import pepperoniImg from "../../static/images/pizza/pepperoni.jpeg";
 import bavariaImg from "../../static/images/pizza/bavaria.jpeg";
 import margaritaImg from "../../static/images/pizza/margarita.png";
+import {CHANGE_CURRENCY, CHANGE_LANG, CLEAR_ERRORS, SET_ERROR, SET_LOADING_STATUS} from "../actions/actionTypes";
 
 const initialState: AppSettingsType = {
     lang: getFromLocalStorage('lang') || 'rus',
@@ -13,7 +14,7 @@ const initialState: AppSettingsType = {
             title: 'Pepperoni',
             description: 'Super Giper Pepperoni',
             price: {
-                summ: 13,
+                sum: 13,
                 currency: 'usd'
             },
             image: pepperoniImg
@@ -23,7 +24,7 @@ const initialState: AppSettingsType = {
             title: 'Bavaria',
             description: 'Super Giper Bavaria',
             price: {
-                summ: 13,
+                sum: 13,
                 currency: 'usd'
             },
             image: bavariaImg
@@ -33,7 +34,7 @@ const initialState: AppSettingsType = {
             title: 'Margarita',
             description: 'Super Giper Margarita',
             price: {
-                summ: 9,
+                sum: 9,
                 currency: 'eur'
             },
             image: margaritaImg
@@ -43,7 +44,7 @@ const initialState: AppSettingsType = {
             title: 'Margarita',
             description: 'Super Giper Margarita',
             price: {
-                summ: 9,
+                sum: 9,
                 currency: 'eur'
             },
             image: margaritaImg
@@ -53,24 +54,39 @@ const initialState: AppSettingsType = {
             title: 'Margarita',
             description: 'Super Giper Margarita',
             price: {
-                summ: 9,
+                sum: 9,
                 currency: 'eur'
             },
             image: margaritaImg
         }
-    ] || []
+    ] || [],
+    isLoading: false,
+    error: null,
 }
 
 export default function appSettingReducer(state = initialState, action) {
 
     switch (action.type) {
-        case 'CHANGE_LANG':
+        case CHANGE_LANG:
             setToLocalStorage('lang', action.lang)
             return {...state, lang: action.lang}
 
-        case 'CHANGE_CURRENCY':
+        case CHANGE_CURRENCY:
             setToLocalStorage('currency', action.currency)
             return {...state, currency: action.currency}
+
+        case SET_LOADING_STATUS:
+            console.log('SET LOADING', action.payload)
+            return {...state, isLoading: action.payload}
+
+        case SET_ERROR:
+            console.log('Error in app reducer', action.payload)
+            return {...state, error: action.payload}
+
+        case CLEAR_ERRORS:
+            console.log('Clear errors')
+            return {...state, error: null}
+
     }
 
     return state

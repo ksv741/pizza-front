@@ -5,6 +5,12 @@ export type AppSettingsType = {
     lang: LangType,
     currency: CurrencyType,
     menu: PizzaType[],
+    user?: {
+        name: string,
+        id: string
+    },
+    isLoading: boolean,
+    error: string,
 }
 
 export type PizzaType = {
@@ -16,7 +22,7 @@ export type PizzaType = {
 }
 
 export type PriceType = {
-    summ: number,
+    sum: number,
     currency: CurrencyType
 }
 

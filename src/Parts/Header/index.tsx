@@ -4,14 +4,17 @@ import {AppCurrencies, AppLanguages} from "../../Utils/app.utils";
 import {CurrencyType, LangType, OrderType} from "../../AppTypes";
 import {Navbar, DropdownButton, Dropdown, Button} from "react-bootstrap";
 import {connect} from "react-redux";
-import CartPage from "../../Pages/Cart";
+import {signOut} from "../../Redux/actions/auth.actions";
 
 interface HeaderProps {
     lang: LangType,
     onChangeLang: (lang: LangType) => void,
     currency: CurrencyType,
     onChangeCurrency: (cur: CurrencyType) => void,
-    order: OrderType
+    order: OrderType,
+    userName: string,
+    isSignedIn: boolean,
+    onLogOut: () => void
 }
 
 // TODO add styles !!!
@@ -66,6 +69,7 @@ class Header extends React.Component<HeaderProps> {
     }
 
     render() {
+        console.log('HEADER PROPS', this.props)
         return (
             <Navbar bg="light" expand="lg">
                 <Link to='/'>Pizza Shop</Link>
@@ -78,14 +82,18 @@ class Header extends React.Component<HeaderProps> {
                     {this.getAllCurrenciesFields()}
                 </DropdownButton>
 
-                <Button variant="secondary">Sign</Button>
+                <Link to={'/cart'}><Button variant='secondary'>Cart{this.getPizzaOrderCount()}</Button></Link>
 
-                <Link
-                    to={'/cart'}
-                >
-                    Cart
-                    {this.getPizzaOrderCount()}
-                </Link>
+                {
+                    this.props.isSignedIn
+                        ? (
+                            <>
+                                <Button>{this.props.userName}</Button>
+                                <Button onClick={this.props.onLogOut}>Log out</Button>
+                            </>
+                        )
+                        : <Link to={'/auth'}><Button variant='info'>Auth</Button></Link>
+                }
 
             </Navbar>
         )
@@ -99,14 +107,17 @@ function mapStateToProps(state) {
     return {
         lang: appSettingReducer.lang,
         currency: appSettingReducer.currency,
-        order: orderReducer.order
+        order: orderReducer.order,
+        userName: state.authReducer.name,
+        isSignedIn: state.authReducer.isSignedIn
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         onChangeLang: (lang: LangType) => dispatch({type: 'CHANGE_LANG', lang}),
-        onChangeCurrency: (currency: CurrencyType) => dispatch({type: 'CHANGE_CURRENCY', currency})
+        onChangeCurrency: (currency: CurrencyType) => dispatch({type: 'CHANGE_CURRENCY', currency}),
+        onLogOut: () => dispatch(signOut()),
     }
 }
 

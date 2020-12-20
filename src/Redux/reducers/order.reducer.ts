@@ -1,5 +1,6 @@
 import {OrderType} from "../../AppTypes";
 import {getFromLocalStorage, setToLocalStorage} from "../rootReducer";
+import {CLEAR_ORDER} from "../actions/actionTypes";
 
 const initialState: OrderType = {
     order: getFromLocalStorage('currentOrder') || {}
@@ -23,6 +24,10 @@ export default function orderReducer(state = initialState, action) {
             setToLocalStorage('currentOrder', order)
 
            return newState
+
+        case CLEAR_ORDER:
+            setToLocalStorage('currentOrder', {})
+            return {...state, order: {}}
     }
 
     return state

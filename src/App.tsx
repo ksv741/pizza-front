@@ -2,11 +2,20 @@ import React from "react";
 import Header from "./Parts/Header";
 import {BrowserRouter} from "react-router-dom";
 import {Routes} from "./Parts/Routes/routes";
-// import {CurrencyType, LangType, OrderType} from "./AppTypes";
-// import {connect} from "react-redux";
+import {connect} from "react-redux";
+import {getFromLocalStorage} from "./Redux/rootReducer";
+import {isSignedIn} from "./Redux/actions/auth.actions";
 
+type AppPropsType = {
+    isSignedIn: (user) => void
+}
 
-export default class App extends React.Component<React.ComponentProps<any>, React.ComponentState> {
+class App extends React.Component<AppPropsType, React.ComponentState> {
+
+    componentDidMount() {
+        const user = getFromLocalStorage('user')
+        if (user?.length) this.props.isSignedIn(JSON.parse(user))
+    }
 
     render() {
         return(
@@ -24,13 +33,12 @@ export default class App extends React.Component<React.ComponentProps<any>, Reac
 //         currency: state.currency
 //     }
 // }
-//
-// function mapDispatchToProps(dispatch) {
-//     return {
-//         onChangeLang: (lang: LangType) => dispatch({type: 'CHANGE_LANG', lang}),
-//         onChangeCurrency: (currency: CurrencyType) => dispatch({type: 'CHANGE_CURRENCY', currency})
-//     }
-// }
-//
-// export default connect(mapStateToProps, mapDispatchToProps)(App)
+
+function mapDispatchToProps(dispatch) {
+    return {
+        isSignedIn: (user) => dispatch(isSignedIn(user)),
+    }
+}
+
+export default connect(null, mapDispatchToProps)(App)
 

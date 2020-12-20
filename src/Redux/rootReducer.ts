@@ -1,12 +1,14 @@
 import {combineReducers} from "redux";
-import appSettingReducer from "./reducers/app.settings";
+import appSettingReducer from "./reducers/app.settings.reducer";
 import orderReducer from "./reducers/order.reducer";
 import toastReducer from "./reducers/toast.reducer";
+import authReducer from "./reducers/auth.reducer";
 
 export default combineReducers({
     appSettingReducer,
     orderReducer,
-    toastReducer
+    toastReducer,
+    authReducer
 })
 
 export function getFromLocalStorage(field: string) {
