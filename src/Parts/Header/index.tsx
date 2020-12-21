@@ -5,6 +5,7 @@ import {CurrencyType, LangType, OrderType} from "../../AppTypes";
 import {Navbar, DropdownButton, Dropdown, Button} from "react-bootstrap";
 import {connect} from "react-redux";
 import {signOut} from "../../Redux/actions/auth.actions";
+import {getHistory} from "../../Redux/actions/order.action";
 
 interface HeaderProps {
     lang: LangType,
@@ -14,7 +15,8 @@ interface HeaderProps {
     order: OrderType,
     userName: string,
     isSignedIn: boolean,
-    onLogOut: () => void
+    onLogOut: () => void,
+    getHistory: () => void
 }
 
 // TODO add styles !!!
@@ -90,6 +92,7 @@ class Header extends React.Component<HeaderProps> {
                             <>
                                 <Button>{this.props.userName}</Button>
                                 <Button onClick={this.props.onLogOut}>Log out</Button>
+                                <Link to={'/history'}><Button>History</Button></Link>
                             </>
                         )
                         : <Link to={'/auth'}><Button variant='info'>Auth</Button></Link>

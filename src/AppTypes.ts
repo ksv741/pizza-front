@@ -11,6 +11,7 @@ export type AppSettingsType = {
     },
     isLoading: boolean,
     error: string,
+    history: [],
 }
 
 export type PizzaType = {
@@ -32,4 +33,11 @@ export type PizzaOrderType = {
 
 export type OrderType = {
     order: PizzaOrderType
+}
+
+export type BuyerType = {
+    name: string,
+    email: string,
+    address: string,
+    paymentMethod: 'cash' | 'card'
 }

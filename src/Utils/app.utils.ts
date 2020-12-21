@@ -1,4 +1,5 @@
 import {CurrencyType, PriceType} from "../AppTypes";
+import {setLoading} from "../Redux/actions/appSettings.actions";
 
 export enum AppLanguages {
     deu = 'Deutsch',
@@ -39,4 +40,24 @@ export const covertCurrency = (from: PriceType, to: CurrencyType): PriceType => 
 export const getConvertedPrice = (from: PriceType, to: CurrencyType): string => {
     const converted = covertCurrency(from, to);
     return `${converted.sum.toFixed()} ${AppCurrencies[converted.currency]}`
+}
+
+export async function request(url: string, method: string = 'GET', body = null, headers = {}) {
+    try{
+        if (body) {
+            body = JSON.stringify(body)
+            headers['Content-type'] = 'application/json'
+        }
+        const response = await fetch(url, {method, body, headers})
+        console.log('response', response)
+        const data = await response.json()
+
+        if (!response.ok) {
+            throw new Error(data.message || 'Something goes wrong')
+        }
+
+        return data
+    } catch(e) {
+        return {error: e.message};
+    }
 }

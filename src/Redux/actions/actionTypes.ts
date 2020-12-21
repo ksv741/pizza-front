@@ -8,3 +8,5 @@ export const SET_LOADING_STATUS = 'SET_LOADING_STATUS';
 export const SET_ERROR = 'SET_ERROR';
 export const CLEAR_ERRORS = 'CLEAR_ERRORS';
 export const CLEAR_ORDER = 'CLEAR_ORDER';
+export const MAKE_ORDER = 'MAKE_ORDER'
+export const GET_HISTORY = 'GET_HISTORY'

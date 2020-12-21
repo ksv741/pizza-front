@@ -4,7 +4,7 @@ import {BrowserRouter} from "react-router-dom";
 import {Routes} from "./Parts/Routes/routes";
 import {connect} from "react-redux";
 import {getFromLocalStorage} from "./Redux/rootReducer";
-import {isSignedIn} from "./Redux/actions/auth.actions";
+import {logIn} from "./Redux/actions/auth.actions";
 
 type AppPropsType = {
     isSignedIn: (user) => void
@@ -36,7 +36,7 @@ class App extends React.Component<AppPropsType, React.ComponentState> {
 
 function mapDispatchToProps(dispatch) {
     return {
-        isSignedIn: (user) => dispatch(isSignedIn(user)),
+        isSignedIn: (user) => dispatch(logIn(user)),
     }
 }
 

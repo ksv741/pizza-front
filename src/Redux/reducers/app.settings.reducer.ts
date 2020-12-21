@@ -3,7 +3,14 @@ import {getFromLocalStorage, setToLocalStorage} from "../rootReducer";
 import pepperoniImg from "../../static/images/pizza/pepperoni.jpeg";
 import bavariaImg from "../../static/images/pizza/bavaria.jpeg";
 import margaritaImg from "../../static/images/pizza/margarita.png";
-import {CHANGE_CURRENCY, CHANGE_LANG, CLEAR_ERRORS, SET_ERROR, SET_LOADING_STATUS} from "../actions/actionTypes";
+import {
+    CHANGE_CURRENCY,
+    CHANGE_LANG,
+    CLEAR_ERRORS,
+    GET_HISTORY,
+    SET_ERROR,
+    SET_LOADING_STATUS
+} from "../actions/actionTypes";
 
 const initialState: AppSettingsType = {
     lang: getFromLocalStorage('lang') || 'rus',
@@ -62,6 +69,7 @@ const initialState: AppSettingsType = {
     ] || [],
     isLoading: false,
     error: null,
+    history: [],
 }
 
 export default function appSettingReducer(state = initialState, action) {
@@ -87,6 +95,8 @@ export default function appSettingReducer(state = initialState, action) {
             console.log('Clear errors')
             return {...state, error: null}
 
+        case GET_HISTORY:
+            return {...state, history: action.payload}
     }
 
     return state
