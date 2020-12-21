@@ -1,19 +1,32 @@
 import React from "react";
 import {connect} from "react-redux";
 import {getHistory} from "../../Redux/actions/order.action";
-import {Table} from "react-bootstrap";
-import {PizzaType} from "../../AppTypes";
+import {Spinner, Table} from "react-bootstrap";
+import {CurrencyType, PizzaType} from "../../AppTypes";
+import {getConvertedPrice} from "../../Utils/app.utils";
 
 type HistoryPageType = {
     getHistory: () => void,
     history: any[],
-    menu: PizzaType[]
+    menu: PizzaType[],
+    isLoading: boolean,
+    currency: CurrencyType,
 }
 
 class HistoryPage extends React.Component<HistoryPageType> {
 
     componentDidMount() {
         this.props.getHistory()
+    }
+
+    calculateSum = (item) => {
+       const sumCount = item.order.reduce((sum, current) => {
+           const findPizza = this.props.menu.find(x => x.alias == current.alias)
+
+           return sum + findPizza.price.sum
+       }, 0)
+
+        return getConvertedPrice({sum: sumCount, currency: 'usd'}, this.props.currency)
     }
 
     renderOrders = () => {
@@ -41,6 +54,7 @@ class HistoryPage extends React.Component<HistoryPageType> {
                         {new Date(item.time).toLocaleTimeString()}
                     </td>
                     <td>{item.address}</td>
+                    <td>{this.calculateSum(item)}</td>
                     <td>{item.paymentMethod}</td>
                 </tr>
             )
@@ -48,6 +62,13 @@ class HistoryPage extends React.Component<HistoryPageType> {
     }
 
     render() {
+        if (this.props.isLoading) {
+            return (
+                <div className={'container'}>
+                    <Spinner animation="border" variant="warning" />
+                </div>
+            )
+        }
 
         if (!this.props.history) {
             return (
@@ -64,15 +85,15 @@ class HistoryPage extends React.Component<HistoryPageType> {
                         <th>Order</th>
                         <th>Time</th>
                         <th>Address</th>
+                        <th>Sum</th>
                         <th>Payment Method</th>
                     </tr>
                     </thead>
                     <tbody>
-                    {this.renderOrders()}
+                        {this.renderOrders()}
                     </tbody>
                 </Table>
             </div>
-
         );
     }
 }
@@ -80,7 +101,9 @@ class HistoryPage extends React.Component<HistoryPageType> {
 function mapStateToProps(state) {
     return {
         history: state.appSettingReducer.history,
-        menu: state.appSettingReducer.menu
+        menu: state.appSettingReducer.menu,
+        isLoading: state.appSettingReducer.isLoading,
+        currency: state.appSettingReducer.currency,
     }
 }
 

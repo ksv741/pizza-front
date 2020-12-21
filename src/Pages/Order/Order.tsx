@@ -1,15 +1,19 @@
 import React from "react";
-import {Button, Form, InputGroup} from "react-bootstrap";
-import {clearOrder, makeOrder} from "../../Redux/actions/order.action";
+import {Alert, Button, Form, InputGroup, Spinner} from "react-bootstrap";
+import {makeOrder} from "../../Redux/actions/order.action";
 import {connect} from "react-redux";
 import {BuyerType, OrderType} from "../../AppTypes";
+import {RouteComponentProps} from "react-router-dom";
+import {clearErrors} from "../../Redux/actions/appSettings.actions";
 
 type OrderPageProps = {
     name: string,
     email: string,
     order: OrderType,
-    makeOrder: (order: OrderType, buyer: BuyerType) => void
-}
+    makeOrder: (order: OrderType, buyer: BuyerType) => void,
+    isLoading: boolean,
+    error: string
+}  & RouteComponentProps
 
 class OrderPage extends React.Component<OrderPageProps> {
 
@@ -22,15 +26,26 @@ class OrderPage extends React.Component<OrderPageProps> {
             address: e.target[2].value,
             paymentMethod: e.target[3].checked ? 'card' : 'cash'
         }
-        const result = await this.props.makeOrder(this.props.order, buyer)
+        await this.props.makeOrder(this.props.order, buyer)
+        if (!this.props.error) this.props.history.push('/')
+    }
 
-        console.log('Result', result)
+    renderAlertBlock = () => {
+        if (this.props.error) {
+            return (
+                <Alert variant='danger'>
+                    {this.props.error}
+                </Alert>
+            )
+        }
+        return null
     }
 
     render() {
-        console.log('ORDER', this.props.name, this.props.email)
+        console.log('THIS', this.props)
         return (
             <div className='container'>
+                {this.renderAlertBlock()}
                 <Form onSubmit={this.submitOrderHandler}>
                     <Form.Group controlId="formGroupName">
                         <Form.Label>Your name</Form.Label>
@@ -60,12 +75,18 @@ class OrderPage extends React.Component<OrderPageProps> {
                         <span>Pay by card</span>
                     </InputGroup>
 
-                    <Button
-                        variant='success'
-                        type='submit'
-                    >
-                        Submit
-                    </Button>
+                    {
+                        this.props.isLoading
+                            ? <Spinner animation="border" variant="warning" />
+                            : (
+                                <Button
+                                    variant='success'
+                                    type='submit'
+                                >
+                                    Submit
+                                </Button>
+                            )
+                    }
 
                 </Form>
             </div>
@@ -77,13 +98,15 @@ function mapStateToProps(state) {
     return {
         name: state.authReducer.name,
         email: state.authReducer.email,
-        order: state.orderReducer.order
+        order: state.orderReducer.order,
+        isLoading: state.appSettingReducer.isLoading,
+        error: state.appSettingReducer.error,
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        makeOrder: (order, buyer) => dispatch(makeOrder(order, buyer))
+        makeOrder: (order, buyer) => dispatch(makeOrder(order, buyer)),
     }
 }
 

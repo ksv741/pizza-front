@@ -1,5 +1,5 @@
 const initialState = {
-    enqueue: ['Pepperoni']
+    enqueue: []
 }
 
 export default function toastReducer(state = initialState, action) {

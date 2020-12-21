@@ -1,5 +1,5 @@
 import React, {FormEvent} from "react";
-import {Alert, Form} from "react-bootstrap";
+import {Alert, Form, Spinner} from "react-bootstrap";
 import {Button, Tab, Tabs} from "react-bootstrap";
 import {signIn, signUp} from "../../Redux/actions/auth.actions";
 import {connect} from "react-redux";
@@ -49,13 +49,7 @@ class AuthPage extends React.Component<AuthPageProps> {
                     <Form.Control required name='name' type="text" placeholder="Name" />
                 </Form.Group>
 
-                <Button
-                    variant="success"
-                    type="submit"
-                    disabled={this.props.isLoading}
-                >
-                    Sign Up
-                </Button>
+                {this.renderButtonBlock()}
             </Form>
         )
     }
@@ -73,10 +67,21 @@ class AuthPage extends React.Component<AuthPageProps> {
                     <Form.Control name='password' type="password" placeholder="Password" />
                 </Form.Group>
 
-                <Button variant="success" type="submit" disabled={this.props.isLoading}>
-                    Sign In
-                </Button>
+                {this.renderButtonBlock()}
+
             </Form>
+        )
+    }
+
+    renderButtonBlock = () => {
+        if (this.props.isLoading) {
+            return <Spinner animation="border" variant="warning" />
+        }
+
+        return (
+            <Button variant="success" type="submit" disabled={this.props.isLoading}>
+                Sign In
+            </Button>
         )
     }
 

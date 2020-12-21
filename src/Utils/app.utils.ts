@@ -49,7 +49,6 @@ export async function request(url: string, method: string = 'GET', body = null, 
             headers['Content-type'] = 'application/json'
         }
         const response = await fetch(url, {method, body, headers})
-        console.log('response', response)
         const data = await response.json()
 
         if (!response.ok) {

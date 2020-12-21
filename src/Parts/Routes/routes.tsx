@@ -5,13 +5,18 @@ import OrderPage from "../../Pages/Order/Order";
 import HistoryPage from "../../Pages/History";
 import CartPage from "../../Pages/Cart";
 import AuthPage from "../../Pages/Auth";
+import {connect} from "react-redux";
 
-export class Routes extends React.Component {
+type RoutesProps = {
+    isSignedIn: boolean
+}
+
+class Routes extends React.Component<RoutesProps> {
     render() {
         return (
             <Switch>
                 <Route path='/order' component={OrderPage}/>
-                <Route path='/history' component={HistoryPage}/>
+                {this.props.isSignedIn && <Route path='/history' component={HistoryPage}/>}
                 <Route path='/cart' component={CartPage}/>
                 <Route path='/auth' component={AuthPage}/>
                 <Route path='/' exact component={MainPage}/>
@@ -19,3 +24,11 @@ export class Routes extends React.Component {
         )
     }
 }
+
+function mapStateToProps(state) {
+    return {
+        isSignedIn: state.authReducer.isSignedIn
+    }
+}
+
+export default connect(mapStateToProps)(Routes)

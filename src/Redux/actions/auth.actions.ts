@@ -5,8 +5,12 @@ import {request} from "../../Utils/app.utils";
 export function signUp (email: string, password: string, name: string) {
     return async dispatch => {
         dispatch(clearErrors)
+        dispatch(setLoading(true))
 
         const data = await request('http://localhost:5000/api/auth/signup', 'POST', {email, password, name})
+
+        dispatch(setLoading(false))
+
         if (!data.error) dispatch(successSignUp(email, name))
         else dispatch(setError(data.error))
     }
@@ -14,13 +18,16 @@ export function signUp (email: string, password: string, name: string) {
 
 export function signIn (email: string, password: string) {
     return async dispatch => {
+
         dispatch(clearErrors())
+        dispatch(setLoading(true))
 
         const data = await request('http://localhost:5000/api/auth/signin', 'POST', {email, password})
+
+        dispatch(setLoading(false))
+
         if (!data.error) dispatch(successSignIn(email, data.name, data.token, data.userId))
-        else {
-            dispatch(setError(data.error))
-        }
+        else dispatch(setError(data.error))
     }
 }
 
@@ -32,14 +39,19 @@ export function signOut () {
 
 export function logIn (user) {
     return async dispatch => {
+        dispatch(clearErrors())
+        dispatch(setLoading(true))
+
         const data = await request('http://localhost:5000/api/auth/login', 'POST', null, {
             'Authorization': `Bearer ${user.token}`
         })
 
+        dispatch(setLoading(false))
+
         if (!data.error) {
             const {user} = data
             dispatch(successLogIn(user.email, user.name))
-        }
+        } else dispatch(setError(data.error))
     }
 }
 

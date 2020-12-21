@@ -72,7 +72,7 @@ const initialState: AppSettingsType = {
     history: [],
 }
 
-export default function appSettingReducer(state = initialState, action) {
+export default function appSettingReducer(state = initialState, action): AppSettingsType {
 
     switch (action.type) {
         case CHANGE_LANG:
@@ -84,15 +84,12 @@ export default function appSettingReducer(state = initialState, action) {
             return {...state, currency: action.currency}
 
         case SET_LOADING_STATUS:
-            console.log('SET LOADING', action.payload)
             return {...state, isLoading: action.payload}
 
         case SET_ERROR:
-            console.log('Error in app reducer', action.payload)
             return {...state, error: action.payload}
 
         case CLEAR_ERRORS:
-            console.log('Clear errors')
             return {...state, error: null}
 
         case GET_HISTORY:

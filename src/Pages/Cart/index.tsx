@@ -115,7 +115,6 @@ class CartPage extends React.Component<CartProps> {
         return (
 
             <div className='container'>
-                <span> Your order {orderId}</span>
                 {
                     Object.keys(this.props.order).length
                         ? (

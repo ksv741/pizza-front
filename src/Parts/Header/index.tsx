@@ -1,13 +1,13 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import {Link, RouteComponentProps, withRouter} from "react-router-dom";
 import {AppCurrencies, AppLanguages} from "../../Utils/app.utils";
 import {CurrencyType, LangType, OrderType} from "../../AppTypes";
 import {Navbar, DropdownButton, Dropdown, Button} from "react-bootstrap";
 import {connect} from "react-redux";
 import {signOut} from "../../Redux/actions/auth.actions";
-import {getHistory} from "../../Redux/actions/order.action";
 
-interface HeaderProps {
+
+type HeaderProps = {
     lang: LangType,
     onChangeLang: (lang: LangType) => void,
     currency: CurrencyType,
@@ -17,7 +17,7 @@ interface HeaderProps {
     isSignedIn: boolean,
     onLogOut: () => void,
     getHistory: () => void
-}
+} & RouteComponentProps
 
 // TODO add styles !!!
 class Header extends React.Component<HeaderProps> {
@@ -57,21 +57,20 @@ class Header extends React.Component<HeaderProps> {
     }
 
     getPizzaOrderCount = ():number => {
-        return 5
 
-        if (!Object.values(this.props.order).length) return null
+        if (!Object.values(this.props.order).length) return 0
 
         const ordersCount =  Object.values(this.props.order).reduce((allCount, currentCount) => {
             // TODO fix
+            // @ts-ignore
             return allCount + currentCount
         }, 0)
 
         if (ordersCount) return ordersCount
-        else return null
+        else return 0
     }
 
     render() {
-        console.log('HEADER PROPS', this.props)
         return (
             <Navbar bg="light" expand="lg">
                 <Link to='/'>Pizza Shop</Link>
@@ -84,15 +83,34 @@ class Header extends React.Component<HeaderProps> {
                     {this.getAllCurrenciesFields()}
                 </DropdownButton>
 
-                <Link to={'/cart'}><Button variant='secondary'>Cart{this.getPizzaOrderCount()}</Button></Link>
+                <Link to={'/cart'}><Button variant='secondary'>Cart ({this.getPizzaOrderCount()})</Button></Link>
 
                 {
                     this.props.isSignedIn
                         ? (
                             <>
-                                <Button>{this.props.userName}</Button>
-                                <Button onClick={this.props.onLogOut}>Log out</Button>
-                                <Link to={'/history'}><Button>History</Button></Link>
+                                {/*<Button>{this.props.userName}</Button>*/}
+                                {/*<Button onClick={this.props.onLogOut}>Log out</Button>*/}
+                                {/*<Link to={'/history'}><Button>History</Button></Link>*/}
+                                <Dropdown>
+                                    <Dropdown.Toggle variant="success" id="dropdown-basic">
+                                        {this.props.userName}
+                                    </Dropdown.Toggle>
+
+                                    <Dropdown.Menu>
+                                        <Dropdown.Item
+                                            as="button"
+                                            onClick={() => {
+                                                this.props.onLogOut()
+                                                this.props.history.push('/')
+                                            }}
+                                        >
+                                            Log out
+                                        </Dropdown.Item>
+                                     <Link to={'/history'}><Dropdown.Item as='button'>History</Dropdown.Item></Link>
+
+                                    </Dropdown.Menu>
+                                </Dropdown>
                             </>
                         )
                         : <Link to={'/auth'}><Button variant='info'>Auth</Button></Link>
@@ -124,4 +142,4 @@ function mapDispatchToProps(dispatch) {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Header)
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Header))
