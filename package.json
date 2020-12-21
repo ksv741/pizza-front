@@ -5,15 +5,24 @@
   "scripts": {
     "dev": "cross-env NODE_ENV=development webpack --mode development",
     "build": "cross-env NODE_ENV=production webpack --mode production",
-    "server": "cross-env NODE_ENV=development webpack serve --mode development"
+    "server": "cross-env NODE_ENV=development webpack serve --mode development",
+    "install": "npm install"
   },
   "author": "Sergey Krylov <ksv741@gmail.com>",
   "license": "ISC",
   "devDependencies": {
     "@babel/core": "^7.12.10",
+    "@babel/plugin-proposal-class-properties": "^7.12.1",
+    "@babel/plugin-transform-arrow-functions": "^7.12.1",
+    "@babel/plugin-transform-runtime": "^7.12.10",
+    "@babel/plugin-transform-typescript": "^7.12.1",
     "@babel/preset-env": "^7.12.10",
     "@babel/preset-react": "^7.12.10",
     "@babel/preset-typescript": "^7.12.7",
+    "@types/react": "^17.0.0",
+    "@types/react-bootstrap": "^0.32.25",
+    "@types/react-dom": "^17.0.0",
+    "@types/react-router-dom": "^5.1.6",
     "babel-eslint": "^10.1.0",
     "babel-loader": "^8.2.2",
     "clean-webpack-plugin": "^3.0.0",
@@ -35,12 +44,20 @@
     "webpack-cli": "^4.2.0"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.15.1",
+    "@types/react-redux": "^7.1.12",
+    "bootstrap": "^4.5.3",
     "classnames": "^2.2.6",
+    "http-proxy-middleware": "^1.0.6",
     "normalize.css": "^8.0.1",
     "optimize-css-assets-webpack-plugin": "^5.0.4",
     "react": "^17.0.1",
+    "react-bootstrap": "^1.4.0",
     "react-dom": "^17.0.1",
+    "react-redux": "^7.2.2",
     "react-router-dom": "^5.2.0",
+    "redux": "^4.0.5",
+    "redux-thunk": "^2.3.0",
     "webpack-dev-server": "^3.11.0"
   }
 }

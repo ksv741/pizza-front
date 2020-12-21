@@ -30,13 +30,13 @@ module.exports = {
     entry: {
         main:  './index.tsx',
     },
-    devtool: isDev && 'source-map',
+    devtool: 'source-map',
     output: {
         filename: '[name].[contenthash].js',
         path: path.resolve(__dirname, 'dist')
     },
     resolve: {
-        extensions: ['.js', '.ts', '.tsx', 'jpg', '.jpeg']
+        extensions: ['.js', '.ts', '.tsx', 'jpg', '.jpeg', '.png', '.scss', '.css']
     },
     plugins: [
         new HTMLWebpackPLugin({
@@ -59,6 +59,7 @@ module.exports = {
     devServer: {
         port: 4200,
         hot: isDev,
+        historyApiFallback: true,
     },
     module: {
         rules: [
@@ -74,6 +75,17 @@ module.exports = {
                     'css-loader', 'sass-loader']
             },
             {
+                test: /\.сss$/,
+                use: [
+                    {
+                        loader: MiniCssExtractPlugin.loader,
+                        options: {
+                            publicPath: 'dist/styles',
+                        },
+                    },
+                    'css-loader']
+            },
+            {
                 test: /\.(png|jpg|jpeg)$/,
                 use: ['file-loader']
             },
@@ -86,12 +98,6 @@ module.exports = {
                 exclude: /node_modules/,
                 use: [{
                     loader: "babel-loader",
-                    options: {
-                        presets: [
-                            '@babel/preset-typescript',
-                            '@babel/preset-react'
-                        ]
-                    }
                 }]
             },
             {
@@ -101,7 +107,8 @@ module.exports = {
                     loader: "babel-loader",
                     options: {
                         presets: [
-                            '@babel/preset-react'
+                            '@babel/preset-react',
+                            '@babel/preset-typescript'
                         ]
                     }
                 }]
