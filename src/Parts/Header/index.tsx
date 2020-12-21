@@ -75,9 +75,9 @@ class Header extends React.Component<HeaderProps> {
             <Navbar bg="light" expand="lg">
                 <Link to='/'>Pizza Shop</Link>
 
-                <DropdownButton id="dropdown-item-button" title={AppLanguages[this.props.lang]}>
-                    {this.getAllLanguagesFields()}
-                </DropdownButton>
+                {/*<DropdownButton id="dropdown-item-button" title={AppLanguages[this.props.lang]}>*/}
+                {/*    {this.getAllLanguagesFields()}*/}
+                {/*</DropdownButton>*/}
 
                 <DropdownButton id="dropdown-item-button" title={AppCurrencies[this.props.currency]}>
                     {this.getAllCurrenciesFields()}
