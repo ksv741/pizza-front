@@ -22,6 +22,7 @@ class HistoryPage extends React.Component<HistoryPageType> {
     calculateSum = (item) => {
        const sumCount = item.order.reduce((sum, current) => {
            const findPizza = this.props.menu.find(x => x.alias == current.alias)
+           if (!findPizza) return sum
 
            return sum + findPizza.price.sum
        }, 0)
@@ -35,6 +36,9 @@ class HistoryPage extends React.Component<HistoryPageType> {
         return history.map((item, index) => {
             const pizzas = item.order.map(order => {
                 const findPizza = this.props.menu.find(x => x.alias == order.alias)
+
+                if (!findPizza) return null
+
                 return (
                     <div key={order.alias}>
                         <strong>{order.alias}</strong>

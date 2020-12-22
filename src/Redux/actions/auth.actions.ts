@@ -1,4 +1,4 @@
-import {LOG_IN, SIGN_IN, SIGN_OUT, SIGN_UP} from "./actionTypes";
+import {CLEAR_USER, LOG_IN, SIGN_IN, SIGN_OUT, SIGN_UP} from "./actionTypes";
 import {clearErrors, setError, setLoading} from "./appSettings.actions";
 import {request} from "../../Utils/app.utils";
 
@@ -51,7 +51,16 @@ export function logIn (user) {
         if (!data.error) {
             const {user} = data
             dispatch(successLogIn(user.email, user.name))
-        } else dispatch(setError(data.error))
+        } else {
+            clearUser()
+            dispatch(setError(data.error))
+        }
+    }
+}
+
+function clearUser () {
+    return {
+        type: CLEAR_USER
     }
 }
 

@@ -10,3 +10,4 @@ export const CLEAR_ERRORS = 'CLEAR_ERRORS';
 export const CLEAR_ORDER = 'CLEAR_ORDER';
 export const MAKE_ORDER = 'MAKE_ORDER'
 export const GET_HISTORY = 'GET_HISTORY'
+export const CLEAR_USER = 'CLEAR_USER'

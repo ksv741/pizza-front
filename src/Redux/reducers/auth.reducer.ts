@@ -1,4 +1,4 @@
-import {LOG_IN, SIGN_IN, SIGN_OUT, SIGN_UP} from "../actions/actionTypes";
+import {CLEAR_USER, LOG_IN, SIGN_IN, SIGN_OUT, SIGN_UP} from "../actions/actionTypes";
 import {setToLocalStorage} from "../rootReducer";
 
 const initialState = {
@@ -44,6 +44,11 @@ export default function authReducer(state = initialState, action) {
                 email: action.payload.email,
                 isSignedIn: true
             }
+        }
+
+        case CLEAR_USER: {
+            localStorage.removeItem('user')
+            return initialState
         }
     }
 

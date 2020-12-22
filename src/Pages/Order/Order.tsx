@@ -7,12 +7,12 @@ import {RouteComponentProps} from "react-router-dom";
 import {clearErrors} from "../../Redux/actions/appSettings.actions";
 
 type OrderPageProps = {
-    name: string,
-    email: string,
-    order: OrderType,
-    makeOrder: (order: OrderType, buyer: BuyerType) => void,
-    isLoading: boolean,
-    error: string
+    name?: string,
+    email?: string,
+    order?: OrderType,
+    makeOrder?: (order: OrderType, buyer: BuyerType) => void,
+    isLoading?: boolean,
+    error?: string
 }  & RouteComponentProps
 
 class OrderPage extends React.Component<OrderPageProps> {
