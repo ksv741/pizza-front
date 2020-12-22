@@ -11,6 +11,7 @@ export function signUp (email: string, password: string, name: string) {
 
         dispatch(setLoading(false))
 
+        // TODO after success signing Up dispatch sign IN
         if (!data.error) dispatch(successSignUp(email, name))
         else dispatch(setError(data.error))
     }
@@ -51,10 +52,8 @@ export function logIn (user) {
         if (!data.error) {
             const {user} = data
             dispatch(successLogIn(user.email, user.name))
-        } else {
-            clearUser()
-            dispatch(setError(data.error))
-        }
+        } else clearUser()
+
     }
 }
 

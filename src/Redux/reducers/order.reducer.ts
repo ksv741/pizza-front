@@ -1,6 +1,6 @@
 import {OrderType} from "../../AppTypes";
 import {getFromLocalStorage, setToLocalStorage} from "../rootReducer";
-import {CLEAR_ORDER} from "../actions/actionTypes";
+import {ADD_PIZZA, CLEAR_ORDER} from "../actions/actionTypes";
 
 const initialState: OrderType = {
     order: getFromLocalStorage('currentOrder') || {}
@@ -9,7 +9,7 @@ const initialState: OrderType = {
 export default function orderReducer(state = initialState, action) {
 
     switch (action.type) {
-        case 'ADD_PIZZA':
+        case ADD_PIZZA:
             const order = {
                 ...state.order,
                 [action.payload.alias]: state.order[action.payload.alias] ? state.order[action.payload.alias] + action.payload.count : 1

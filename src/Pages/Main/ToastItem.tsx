@@ -1,12 +1,14 @@
 import React from "react";
-import {PizzaType} from "../../AppTypes";
+import {LangType, PizzaType} from "../../AppTypes";
 import {Col, Row, Toast} from "react-bootstrap";
 import {connect} from "react-redux";
+import {locale} from "../../Utils/app.lang";
+import {removeToast} from "../../Redux/actions/toast.actions";
 
 type ToastType = {
     item: PizzaType,
-    shown: boolean,
-    onClose: (alias: string) => void
+    onClose: (alias: string) => void,
+    lang: LangType
 }
 
 class ToastItem extends React.Component<ToastType> {
@@ -23,13 +25,12 @@ class ToastItem extends React.Component<ToastType> {
             >
                 <Col xs={6}>
                     <Toast
-                        show={this.props.shown}
                         onClose={() => this.props.onClose(this.props.item.alias)}
                     >
                         <Toast.Header>
-                            <strong className="mr-auto">Bootstrap</strong>
+                            <strong className="mr-auto">Pizza shop</strong>
                         </Toast.Header>
-                        <Toast.Body>You add {this.props.item.title} pizza to cart</Toast.Body>
+                        <Toast.Body>{locale.adding[this.props.lang]} {this.props.item.title[this.props.lang]} {locale.pizza[this.props.lang]} {locale.toCart[this.props.lang]}</Toast.Body>
                     </Toast>
                 </Col>
             </Row>
@@ -39,13 +40,13 @@ class ToastItem extends React.Component<ToastType> {
 
 function mapStateToProps(state) {
     return {
-        shown: state.shown
+        lang: state.appSettingReducer.lang
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        onClose: (alias) => {dispatch({type: 'REMOVE_TOAST_FROM_ENQUEUE', payload: alias})},
+        onClose: (alias) => {dispatch(removeToast(alias))},
     }
 }
 

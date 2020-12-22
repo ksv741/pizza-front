@@ -1,4 +1,4 @@
-import {CLEAR_ORDER, GET_HISTORY, MAKE_ORDER} from "./actionTypes";
+import {ADD_PIZZA, CLEAR_ORDER, GET_HISTORY} from "./actionTypes";
 import {BuyerType, OrderType} from "../../AppTypes";
 import {request} from "../../Utils/app.utils";
 import {getFromLocalStorage} from "../rootReducer";
@@ -45,6 +45,10 @@ export function getHistory() {
         if (!data.error) dispatch(history(data.orders))
         else dispatch(setError(data.error))
     }
+}
+
+export function addPizza(alias: string, count: number) {
+    return {type: ADD_PIZZA, payload: {alias, count}}
 }
 
 function history(history) {

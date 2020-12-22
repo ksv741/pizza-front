@@ -2,8 +2,9 @@ import React from "react";
 import {connect} from "react-redux";
 import {getHistory} from "../../Redux/actions/order.action";
 import {Spinner, Table} from "react-bootstrap";
-import {CurrencyType, PizzaType} from "../../AppTypes";
+import {CurrencyType, LangType, PizzaType} from "../../AppTypes";
 import {getConvertedPrice} from "../../Utils/app.utils";
+import {locale} from "../../Utils/app.lang";
 
 type HistoryPageType = {
     getHistory: () => void,
@@ -11,6 +12,7 @@ type HistoryPageType = {
     menu: PizzaType[],
     isLoading: boolean,
     currency: CurrencyType,
+    lang: LangType,
 }
 
 class HistoryPage extends React.Component<HistoryPageType> {
@@ -76,7 +78,7 @@ class HistoryPage extends React.Component<HistoryPageType> {
 
         if (!this.props.history) {
             return (
-                <h1>No history</h1>
+                <h1>{locale.noHistory[this.props.lang]}</h1>
             )
         }
 
@@ -86,11 +88,11 @@ class HistoryPage extends React.Component<HistoryPageType> {
                     <thead>
                     <tr>
                         <th>#</th>
-                        <th>Order</th>
-                        <th>Time</th>
-                        <th>Address</th>
-                        <th>Sum</th>
-                        <th>Payment Method</th>
+                        <th>{locale.history[this.props.lang]}</th>
+                        <th>{locale.time[this.props.lang]}</th>
+                        <th>{locale.address[this.props.lang]}</th>
+                        <th>{locale.sum[this.props.lang]}</th>
+                        <th>{locale.paymentMethod[this.props.lang]}</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -104,10 +106,11 @@ class HistoryPage extends React.Component<HistoryPageType> {
 
 function mapStateToProps(state) {
     return {
-        history: state.appSettingReducer.history,
-        menu: state.appSettingReducer.menu,
-        isLoading: state.appSettingReducer.isLoading,
         currency: state.appSettingReducer.currency,
+        history: state.appSettingReducer.history,
+        isLoading: state.appSettingReducer.isLoading,
+        lang: state.appSettingReducer.lang,
+        menu: state.appSettingReducer.menu,
     }
 }
 

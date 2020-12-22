@@ -1,17 +1,20 @@
 import React from "react";
 import {Button, Table} from "react-bootstrap";
 import {connect} from "react-redux";
-import {CurrencyType, OrderType, PizzaType} from "../../AppTypes";
+import {CurrencyType, LangType, OrderType, PizzaType} from "../../AppTypes";
 import './cart.styles.scss'
 import {AppCurrencies, covertCurrency, getConvertedPrice} from "../../Utils/app.utils";
 import { ButtonGroup } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import {locale} from "../../Utils/app.lang";
+import {addPizza} from "../../Redux/actions/order.action";
 
 type CartProps = {
     order: OrderType,
     menu: PizzaType[],
     onAddPizza: (alias: string, count: number) => void,
     currency: CurrencyType,
+    lang: LangType,
 }
 
 class CartPage extends React.Component<CartProps> {
@@ -56,9 +59,9 @@ class CartPage extends React.Component<CartProps> {
             return (
                 <tr key={alias}>
                     <td>
-                        <img src={pizza.image} alt={pizza.title}/>
+                        <img src={pizza.image} alt={pizza.title[this.props.lang]}/>
                     </td>
-                    <td>{pizza.title}</td>
+                    <td>{pizza.title[this.props.lang]}</td>
                     <td>{this.renderPriceCell(alias)}</td>
                     <td>{convertedPrice.sum} {AppCurrencies[convertedPrice.currency]}</td>
                     <td>{convertedPrice.sum * order[alias]} {AppCurrencies[convertedPrice.currency]}</td>
@@ -73,10 +76,10 @@ class CartPage extends React.Component<CartProps> {
                 <thead>
                     <tr>
                         <th></th>
-                        <th>Pizza</th>
-                        <th>Count</th>
-                        <th>Price</th>
-                        <th>Sum</th>
+                        <th>{locale.pizza[this.props.lang]}</th>
+                        <th>{locale.count[this.props.lang]}</th>
+                        <th>{locale.price[this.props.lang]}</th>
+                        <th>{locale.sum[this.props.lang]}</th>
                     </tr>
                 </thead>
 
@@ -90,8 +93,8 @@ class CartPage extends React.Component<CartProps> {
     renderEmptyText() {
         return (
             <>
-            <h1>No order yet</h1>
-                <Link to={'/'}>You are welcome to our pizza shop</Link>
+            <h1>{locale.noOrderYet[this.props.lang]}</h1>
+                <Link to={'/'}>{locale.goShopPage[this.props.lang]}</Link>
             </>
         )
     }
@@ -105,13 +108,12 @@ class CartPage extends React.Component<CartProps> {
         return (
             <>
                 {getConvertedPrice({sum, currency: 'usd'}, this.props.currency)}
-                <Button variant={'success'}><Link to={'/order'}>Buy</Link></Button>
+                <Button variant={'success'}><Link to={'/order'}>{locale.buy[this.props.lang]}</Link></Button>
             </>
         )
     }
 
     render() {
-        const orderId = 103231
         return (
 
             <div className='container'>
@@ -132,15 +134,16 @@ class CartPage extends React.Component<CartProps> {
 
 function mapStateToProps(state) {
     return {
-        order: state.orderReducer.order,
+        currency: state.appSettingReducer.currency,
+        lang: state.appSettingReducer.lang,
         menu: state.appSettingReducer.menu,
-        currency: state.appSettingReducer.currency
+        order: state.orderReducer.order,
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        onAddPizza: (alias: string, count: number) => dispatch({type: 'ADD_PIZZA', payload: {alias, count}})
+        onAddPizza: (alias: string, count: number) => dispatch(addPizza(alias, count))
     }
 }
 

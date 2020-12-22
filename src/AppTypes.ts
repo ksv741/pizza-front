@@ -16,9 +16,13 @@ export type AppSettingsType = {
 
 export type PizzaType = {
     alias: string,
-    title: string,
+    title: {
+        [key in LangType]: string
+    },
     price: PriceType,
-    description: string,
+    description: {
+        [key in LangType]: string
+    },
     image: string
 }
 

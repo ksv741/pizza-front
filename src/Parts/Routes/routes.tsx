@@ -6,7 +6,7 @@ import HistoryPage from "../../Pages/History";
 import CartPage from "../../Pages/Cart";
 import AuthPage from "../../Pages/Auth";
 import {connect} from "react-redux";
-import {OrderType, PizzaOrderType} from "../../AppTypes";
+import {PizzaOrderType} from "../../AppTypes";
 
 type RoutesProps = {
     isSignedIn: boolean,

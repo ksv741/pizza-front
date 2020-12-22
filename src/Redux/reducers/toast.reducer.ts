@@ -1,3 +1,5 @@
+import {ADD_TOAST_TO_ENQUEUE, REMOVE_TOAST_FROM_ENQUEUE} from "../actions/actionTypes";
+
 const initialState = {
     enqueue: []
 }
@@ -5,13 +7,13 @@ const initialState = {
 export default function toastReducer(state = initialState, action) {
     switch (action.type) {
 
-        case 'ADD_TOAST_TO_ENQUEUE':
+        case ADD_TOAST_TO_ENQUEUE:
             const enqueue = state.enqueue
             enqueue.push(action.payload)
 
             return {...state, enqueue}
 
-        case 'REMOVE_TOAST_FROM_ENQUEUE':
+        case REMOVE_TOAST_FROM_ENQUEUE:
             const newEnqueue = state.enqueue.filter(x=> x != action.payload)
 
             return {...state, enqueue: newEnqueue}

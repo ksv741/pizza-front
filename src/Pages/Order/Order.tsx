@@ -2,9 +2,10 @@ import React from "react";
 import {Alert, Button, Form, InputGroup, Spinner} from "react-bootstrap";
 import {makeOrder} from "../../Redux/actions/order.action";
 import {connect} from "react-redux";
-import {BuyerType, OrderType} from "../../AppTypes";
+import {BuyerType, LangType, OrderType} from "../../AppTypes";
 import {RouteComponentProps} from "react-router-dom";
 import {clearErrors} from "../../Redux/actions/appSettings.actions";
+import {locale} from "../../Utils/app.lang";
 
 type OrderPageProps = {
     name?: string,
@@ -12,7 +13,8 @@ type OrderPageProps = {
     order?: OrderType,
     makeOrder?: (order: OrderType, buyer: BuyerType) => void,
     isLoading?: boolean,
-    error?: string
+    error?: string,
+    lang?: LangType
 }  & RouteComponentProps
 
 class OrderPage extends React.Component<OrderPageProps> {
@@ -42,13 +44,12 @@ class OrderPage extends React.Component<OrderPageProps> {
     }
 
     render() {
-        console.log('THIS', this.props)
         return (
             <div className='container'>
                 {this.renderAlertBlock()}
                 <Form onSubmit={this.submitOrderHandler}>
                     <Form.Group controlId="formGroupName">
-                        <Form.Label>Your name</Form.Label>
+                        <Form.Label>{locale.name[this.props.lang]}</Form.Label>
                         <Form.Control
                             type="name"
                             placeholder="Enter name"
@@ -57,7 +58,7 @@ class OrderPage extends React.Component<OrderPageProps> {
                     </Form.Group>
 
                     <Form.Group controlId="formGroupName">
-                        <Form.Label>Your email</Form.Label>
+                        <Form.Label>{locale.email[this.props.lang]}</Form.Label>
                         <Form.Control
                             type="email"
                             placeholder="Enter email"
@@ -66,24 +67,21 @@ class OrderPage extends React.Component<OrderPageProps> {
                     </Form.Group>
 
                     <Form.Group controlId="formGroupPassword">
-                        <Form.Label>Address</Form.Label>
+                        <Form.Label>{locale.address[this.props.lang]}</Form.Label>
                         <Form.Control type="text" placeholder="Enter the address" />
                     </Form.Group>
 
                     <InputGroup>
                         <InputGroup.Checkbox/>
-                        <span>Pay by card</span>
+                        <span>{locale.payByCard[this.props.lang]}</span>
                     </InputGroup>
 
                     {
                         this.props.isLoading
                             ? <Spinner animation="border" variant="warning" />
                             : (
-                                <Button
-                                    variant='success'
-                                    type='submit'
-                                >
-                                    Submit
+                                <Button variant='success' type='submit'>
+                                    {locale.submit[this.props.lang]}
                                 </Button>
                             )
                     }
@@ -96,11 +94,12 @@ class OrderPage extends React.Component<OrderPageProps> {
 
 function mapStateToProps(state) {
     return {
-        name: state.authReducer.name,
         email: state.authReducer.email,
-        order: state.orderReducer.order,
-        isLoading: state.appSettingReducer.isLoading,
         error: state.appSettingReducer.error,
+        isLoading: state.appSettingReducer.isLoading,
+        lang: state.appSettingReducer.lang,
+        name: state.authReducer.name,
+        order: state.orderReducer.order,
     }
 }
 

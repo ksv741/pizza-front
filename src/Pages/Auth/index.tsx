@@ -4,12 +4,15 @@ import {Button, Tab, Tabs} from "react-bootstrap";
 import {signIn, signUp} from "../../Redux/actions/auth.actions";
 import {connect} from "react-redux";
 import { RouteComponentProps } from "react-router-dom";
+import {locale} from "../../Utils/app.lang";
+import {LangType} from "../../AppTypes";
 
 type AuthPageProps = {
     onSignUp: (email, password, name) => void,
     onSignIn: (email, password) => void,
     isLoading: boolean,
     error: string,
+    lang: LangType,
 } & RouteComponentProps
 
 class AuthPage extends React.Component<AuthPageProps> {
@@ -35,17 +38,17 @@ class AuthPage extends React.Component<AuthPageProps> {
         return (
             <Form onSubmit={this.signUpHandler}>
                 <Form.Group controlId="signUpEmail">
-                    <Form.Label>Email address</Form.Label>
+                    <Form.Label>{locale.email[this.props.lang]}</Form.Label>
                     <Form.Control required name='email' type="text" placeholder="Enter email" />
                 </Form.Group>
 
                 <Form.Group controlId="signUpPassword">
-                    <Form.Label>Password</Form.Label>
+                    <Form.Label>{locale.password[this.props.lang]}</Form.Label>
                     <Form.Control required name='password' type="password" placeholder="Password" />
                 </Form.Group>
 
                 <Form.Group controlId="signUpName">
-                    <Form.Label>Name</Form.Label>
+                    <Form.Label>{locale.name[this.props.lang]}</Form.Label>
                     <Form.Control required name='name' type="text" placeholder="Name" />
                 </Form.Group>
 
@@ -58,12 +61,12 @@ class AuthPage extends React.Component<AuthPageProps> {
         return (
             <Form onSubmit={this.signInHandler}>
                 <Form.Group controlId="signInEmail">
-                    <Form.Label>Email address</Form.Label>
+                    <Form.Label>{locale.email[this.props.lang]}</Form.Label>
                     <Form.Control name='email' type="email" placeholder="Enter email" />
                 </Form.Group>
 
                 <Form.Group controlId="signInPassword">
-                    <Form.Label>Password</Form.Label>
+                    <Form.Label>{locale.password[this.props.lang]}</Form.Label>
                     <Form.Control name='password' type="password" placeholder="Password" />
                 </Form.Group>
 
@@ -80,7 +83,7 @@ class AuthPage extends React.Component<AuthPageProps> {
 
         return (
             <Button variant="success" type="submit" disabled={this.props.isLoading}>
-                Sign In
+                {locale.signin[this.props.lang]}
             </Button>
         )
     }
@@ -101,10 +104,10 @@ class AuthPage extends React.Component<AuthPageProps> {
             <div className={'container'}>
                 {this.renderAlertBlock()}
                 <Tabs defaultActiveKey="signup" id="uncontrolled-tab-example">
-                    <Tab eventKey="signup" title="Sign Up">
+                    <Tab eventKey="signup" title={locale.signup[this.props.lang]}>
                         {this.renderSignUp()}
                     </Tab>
-                    <Tab eventKey="signin" title="Sign In">
+                    <Tab eventKey="signin" title={locale.signin[this.props.lang]}>
                         {this.renderSignIn()}
                     </Tab>
                 </Tabs>
@@ -115,8 +118,9 @@ class AuthPage extends React.Component<AuthPageProps> {
 
 function mapStateToProps(state) {
     return {
+        error: state.appSettingReducer.error,
         isLoading: state.appSettingReducer.isLoading,
-        error: state.appSettingReducer.error
+        lang: state.appSettingReducer.lang,
     }
 }
 

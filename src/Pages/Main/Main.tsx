@@ -61,16 +61,10 @@ class MainPage extends React.Component<MainPageProps, React.ComponentState> {
 
 function mapStateToProps(state) {
     return {
-        order: state.orderReducer.order,
         menu: state.appSettingReducer.menu,
+        order: state.orderReducer.order,
         toastEnqueue: state.toastReducer.enqueue
     }
 }
 
-function mapDispatchToProps(dispatch) {
-    return {
-        onAddPizza: (pizza: string) => dispatch({type: 'ADD_PIZZA', payload: pizza})
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(MainPage)
+export default connect(mapStateToProps)(MainPage)
