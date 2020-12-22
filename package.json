@@ -6,7 +6,7 @@
     "build:dev": "cross-env NODE_ENV=development webpack --mode development",
     "build:prod": "cross-env NODE_ENV=production webpack --mode production",
     "front:server": "cross-env NODE_ENV=development webpack serve --mode development",
-    "install": "npm install"
+    "front:install": "npm install"
   },
   "author": "Sergey Krylov <ksv741@gmail.com>",
   "license": "ISC",
