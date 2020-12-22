@@ -7,7 +7,7 @@ export function signUp (email: string, password: string, name: string) {
         dispatch(clearErrors)
         dispatch(setLoading(true))
 
-        const data = await request('http://localhost:5000/api/auth/signup', 'POST', {email, password, name})
+        const data = await request('/api/auth/signup', 'POST', {email, password, name})
 
         dispatch(setLoading(false))
 
@@ -22,7 +22,7 @@ export function signIn (email: string, password: string) {
         dispatch(clearErrors())
         dispatch(setLoading(true))
 
-        const data = await request('http://localhost:5000/api/auth/signin', 'POST', {email, password})
+        const data = await request('/api/auth/signin', 'POST', {email, password})
 
         dispatch(setLoading(false))
 
@@ -42,7 +42,7 @@ export function logIn (user) {
         dispatch(clearErrors())
         dispatch(setLoading(true))
 
-        const data = await request('http://localhost:5000/api/auth/login', 'POST', null, {
+        const data = await request('/api/auth/login', 'POST', null, {
             'Authorization': `Bearer ${user.token}`
         })
 

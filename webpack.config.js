@@ -60,6 +60,9 @@ module.exports = {
         port: 4200,
         hot: isDev,
         historyApiFallback: true,
+        proxy: {
+            '/api': 'http://localhost:5000'
+        }
     },
     module: {
         rules: [

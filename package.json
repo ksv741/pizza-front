@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "description": "Test Pizza Shop",
   "scripts": {
-    "dev": "cross-env NODE_ENV=development webpack --mode development",
-    "build": "cross-env NODE_ENV=production webpack --mode production",
-    "server": "cross-env NODE_ENV=development webpack serve --mode development",
+    "build:dev": "cross-env NODE_ENV=development webpack --mode development",
+    "build:prod": "cross-env NODE_ENV=production webpack --mode production",
+    "front:server": "cross-env NODE_ENV=development webpack serve --mode development",
     "install": "npm install"
   },
   "author": "Sergey Krylov <ksv741@gmail.com>",

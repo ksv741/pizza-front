@@ -13,7 +13,7 @@ export function makeOrder(order: OrderType, buyer: BuyerType) {
         dispatch(clearErrors)
         dispatch(setLoading(true))
 
-        const data = await request('http://localhost:5000/api/order/make', 'POST', {order: normalizeOrder, ...buyer})
+        const data = await request('/api/order/make', 'POST', {order: normalizeOrder, ...buyer})
 
         dispatch(setLoading(false))
 
@@ -38,7 +38,7 @@ export function getHistory() {
         dispatch(clearErrors)
         dispatch(setLoading(true))
 
-        const data = await request('http://localhost:5000/api/history/', 'GET', null, headers)
+        const data = await request('/api/history/', 'GET', null, headers)
 
         dispatch(setLoading(false))
 
@@ -53,6 +53,3 @@ function history(history) {
         payload: history
     }
 }
-
-// type: MAKE_ORDER,
-// payload: {order, buyer}
