@@ -1,6 +1,7 @@
 import {AppSettingsType} from "../../AppTypes";
 import {getFromLocalStorage, setToLocalStorage} from "../rootReducer";
 
+// TODO fix
 import pepperoniImg from '../../static/images/pizza/pepperoni.jpeg';
 import bavariaImg from '../../static/images/pizza/bavaria.jpeg';
 import bbqImg from '../../static/images/pizza/bbq.jpeg'

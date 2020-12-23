@@ -26,6 +26,7 @@ class Routes extends React.Component<RoutesProps> {
                 />
                 <Route path='/order' render={() => (
                     haveOrders
+                        //TODO fix
                         ? <OrderPage/>
                         : <Redirect to="/"/>
                     )}

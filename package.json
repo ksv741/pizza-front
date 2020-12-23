@@ -48,6 +48,7 @@
     "@types/react-redux": "^7.1.12",
     "bootstrap": "^4.5.3",
     "classnames": "^2.2.6",
+    "flag-icon-css": "^3.5.0",
     "http-proxy-middleware": "^1.0.6",
     "normalize.css": "^8.0.1",
     "optimize-css-assets-webpack-plugin": "^5.0.4",

@@ -76,10 +76,22 @@ class AuthPage extends React.Component<AuthPageProps> {
         )
     }
 
+    renderSpinner = () => {
+        return (
+            <Spinner
+                animation="border"
+                variant="warning"
+                style={{
+                    display: 'flex',
+                    marginLeft: 'auto',
+                    marginRight: 'auto'
+                }}
+            />
+        )
+    }
+
     renderButtonBlock = () => {
-        if (this.props.isLoading) {
-            return <Spinner animation="border" variant="warning" />
-        }
+        if (this.props.isLoading) this.renderSpinner()
 
         return (
             <Button variant="success" type="submit" disabled={this.props.isLoading}>
@@ -101,7 +113,7 @@ class AuthPage extends React.Component<AuthPageProps> {
 
     render() {
         return (
-            <div className={'container'}>
+            <div className={'container'} style={{paddingBottom: 10, paddingTop: 10}}>
                 {this.renderAlertBlock()}
                 <Tabs defaultActiveKey="signup" id="uncontrolled-tab-example">
                     <Tab eventKey="signup" title={locale.signup[this.props.lang]}>

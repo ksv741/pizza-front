@@ -77,7 +77,7 @@ class PizzaItem extends React.Component<PizzaItemProps, any> {
     render() {
         const {item} = this.props
         return (
-            <Card style={{ width: '18rem' }}>
+            <Card style={{ width: '18rem', marginLeft: 'auto', marginRight: 'auto', marginBottom: 20 }}>
                 <Card.Img variant="top" src={item.image} />
                 <Card.Body>
                     <Card.Title>{item.title[this.props.lang]}</Card.Title>

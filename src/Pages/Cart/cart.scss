@@ -1,0 +1,29 @@
+.cart-table {
+  margin-right: auto;
+  margin-left: auto;
+
+  td {
+    max-height: 100px;
+
+    &:first-child {
+      width: 100px
+    }
+
+    img {
+      max-width: 150px;
+    }
+
+  }
+
+}
+
+.cart-sum {
+  font-size: 20px;
+  margin-right: 10px;
+
+  &__block {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+}

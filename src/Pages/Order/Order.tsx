@@ -12,12 +12,18 @@ type OrderPageProps = {
     email?: string,
     order?: OrderType,
     makeOrder?: (order: OrderType, buyer: BuyerType) => void,
+    clearErrors?: () => void,
     isLoading?: boolean,
     error?: string,
     lang?: LangType
 }  & RouteComponentProps
 
 class OrderPage extends React.Component<OrderPageProps> {
+
+    componentDidMount() {
+        this.props.clearErrors()
+    }
+
 
     submitOrderHandler = async (e: React.FormEvent) => {
         e.preventDefault()
@@ -45,7 +51,7 @@ class OrderPage extends React.Component<OrderPageProps> {
 
     render() {
         return (
-            <div className='container'>
+            <div className='container' style={{paddingBottom: 10, paddingTop: 10}}>
                 {this.renderAlertBlock()}
                 <Form onSubmit={this.submitOrderHandler}>
                     <Form.Group controlId="formGroupName">
@@ -78,9 +84,13 @@ class OrderPage extends React.Component<OrderPageProps> {
 
                     {
                         this.props.isLoading
-                            ? <Spinner animation="border" variant="warning" />
+                            ? <Spinner animation="border" variant="warning" style={{display: 'flex', marginLeft: 'auto', marginRight: 'auto'}}/>
                             : (
-                                <Button variant='success' type='submit'>
+                                <Button
+                                    variant='success'
+                                    type='submit'
+                                    style={{marginTop: 10}}
+                                >
                                     {locale.submit[this.props.lang]}
                                 </Button>
                             )
@@ -106,6 +116,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         makeOrder: (order, buyer) => dispatch(makeOrder(order, buyer)),
+        clearErrors: () => dispatch(clearErrors())
     }
 }
 

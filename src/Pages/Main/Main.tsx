@@ -19,7 +19,7 @@ class MainPage extends React.Component<MainPageProps, React.ComponentState> {
                 <div
                     className={classNames
                     (
-                        "col-4",
+                        "col-sm-4 col-12",
                         'pizza-item'
                     )}
                     key={pizza.alias}
@@ -44,7 +44,7 @@ class MainPage extends React.Component<MainPageProps, React.ComponentState> {
     render() {
         return (
             <div
-                className={'container'}
+                className={'container main'}
                 style={{
                     position: 'relative'
                 }}

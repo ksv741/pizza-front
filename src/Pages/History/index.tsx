@@ -78,7 +78,9 @@ class HistoryPage extends React.Component<HistoryPageType> {
 
         if (!this.props.history) {
             return (
-                <h1>{locale.noHistory[this.props.lang]}</h1>
+                <div className={'container'}>
+                    <h1>{locale.noHistory[this.props.lang]}</h1>
+                </div>
             )
         }
 

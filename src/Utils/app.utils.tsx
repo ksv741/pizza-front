@@ -1,10 +1,15 @@
 import {CurrencyType, PriceType} from "../AppTypes";
-import {setLoading} from "../Redux/actions/appSettings.actions";
 
 export enum AppLanguages {
     deu = 'Deutsch',
     eng = 'English',
     rus = 'Russian'
+}
+
+export enum FlagByLang {
+    deu = 'de',
+    eng = 'gb',
+    rus = 'ru'
 }
 
 export enum AppCurrencies  {

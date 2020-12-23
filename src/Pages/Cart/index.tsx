@@ -2,7 +2,7 @@ import React from "react";
 import {Button, Table} from "react-bootstrap";
 import {connect} from "react-redux";
 import {CurrencyType, LangType, OrderType, PizzaType} from "../../AppTypes";
-import './cart.styles.scss'
+import './cart.scss'
 import {AppCurrencies, covertCurrency, getConvertedPrice} from "../../Utils/app.utils";
 import { ButtonGroup } from "react-bootstrap";
 import { Link } from "react-router-dom";
@@ -93,7 +93,7 @@ class CartPage extends React.Component<CartProps> {
     renderEmptyText() {
         return (
             <>
-            <h1>{locale.noOrderYet[this.props.lang]}</h1>
+                <h1>{locale.noOrderYet[this.props.lang]}</h1>
                 <Link to={'/'}>{locale.goShopPage[this.props.lang]}</Link>
             </>
         )
@@ -106,17 +106,18 @@ class CartPage extends React.Component<CartProps> {
         }, 0)
 
         return (
-            <>
-                {getConvertedPrice({sum, currency: 'usd'}, this.props.currency)}
-                <Button variant={'success'}><Link to={'/order'}>{locale.buy[this.props.lang]}</Link></Button>
-            </>
+            <div className={'cart-sum__block'}>
+                <strong className={'cart-sum'}>
+                    {getConvertedPrice({sum, currency: 'usd'}, this.props.currency)}
+                </strong>
+                <Link to={'/order'}><Button variant={'success'}>{locale.buy[this.props.lang]}</Button></Link>
+            </div>
         )
     }
 
     render() {
         return (
-
-            <div className='container'>
+            <div className='container' style={{paddingBottom: 10, paddingTop: 10}}>
                 {
                     Object.keys(this.props.order).length
                         ? (

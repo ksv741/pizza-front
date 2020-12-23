@@ -1,14 +1,13 @@
 import React from "react";
 import {Link, RouteComponentProps, withRouter} from "react-router-dom";
-import {AppCurrencies, AppLanguages} from "../../Utils/app.utils";
+import {AppCurrencies, AppLanguages, FlagByLang} from "../../Utils/app.utils";
 import {CurrencyType, LangType, OrderType} from "../../AppTypes";
 import {Navbar, DropdownButton, Dropdown, Button} from "react-bootstrap";
 import {connect} from "react-redux";
 import {signOut} from "../../Redux/actions/auth.actions";
 import {locale} from "../../Utils/app.lang";
-import {CHANGE_CURRENCY, CHANGE_LANG} from "../../Redux/actions/actionTypes";
 import {changeCurrency, changeLang} from "../../Redux/actions/appSettings.actions";
-
+import './header.scss'
 
 type HeaderProps = {
     lang: LangType,
@@ -22,14 +21,13 @@ type HeaderProps = {
     getHistory: () => void
 } & RouteComponentProps
 
-// TODO add styles !!!
 class Header extends React.Component<HeaderProps> {
 
     constructor(props) {
         super(props);
     }
 
-    getAllLanguagesFields = () => {
+    renderAllLanguagesFields = () => {
         const all = Object.keys(AppLanguages)
 
         return all.map((lang: LangType) => (
@@ -38,13 +36,14 @@ class Header extends React.Component<HeaderProps> {
                 as="button"
                 active={this.props.lang == lang}
                 onClick={() => this.props.onChangeLang(lang)}
+                className={'header-flag-dropdown__item'}
             >
-                {AppLanguages[lang]}
+                {AppLanguages[lang]} {renderFlagByCountryTag(FlagByLang[lang])}
             </Dropdown.Item>
         ))
     }
 
-    getAllCurrenciesFields = () => {
+    renderAllCurrenciesFields = () => {
         const all = Object.keys(AppCurrencies)
 
         return all.map((cur: CurrencyType, i) => (
@@ -59,7 +58,7 @@ class Header extends React.Component<HeaderProps> {
         ))
     }
 
-    getPizzaOrderCount = ():number => {
+    renderPizzaOrderCount = ():number => {
 
         if (!Object.values(this.props.order).length) return 0
 
@@ -73,49 +72,80 @@ class Header extends React.Component<HeaderProps> {
         else return 0
     }
 
+    renderAuthBlock = () => {
+        if (!this.props.isSignedIn) {
+            return <Link to={'/auth'}><Button variant='info'>{locale.auth[this.props.lang]}</Button></Link>
+        }
+
+        return (
+            <Dropdown>
+                <Dropdown.Toggle variant="success" id="dropdown-basic">
+                    {this.props.userName}
+                </Dropdown.Toggle>
+
+                <Dropdown.Menu>
+                    <Link to={'/history'}><Dropdown.Item as='button'>{locale.history[this.props.lang]}</Dropdown.Item></Link>
+
+                    <Dropdown.Item
+                        as="button"
+                        onClick={() => {
+                            this.props.onLogOut()
+                            this.props.history.push('/')
+                        }}
+                    >
+                        {locale.logout[this.props.lang]}
+                    </Dropdown.Item>
+                </Dropdown.Menu>
+            </Dropdown>
+        )
+    }
+
     render() {
         return (
-            <Navbar bg="light" expand="lg">
-                <Link to='/'>Pizza Shop</Link>
 
-                <DropdownButton id="dropdown-item-button" title={AppLanguages[this.props.lang]}>
-                    {this.getAllLanguagesFields()}
-                </DropdownButton>
+            <Navbar
+                bg="dark"
+                expand="lg"
+                sticky="top"
+                className={'header'}
+                variant="dark"
+            >
+                <div
+                    className={'container'}
+                >
+                        <Link to='/' className={'header-link__home'}>Pizza Shop</Link>
 
-                <DropdownButton id="dropdown-item-button" title={AppCurrencies[this.props.currency]}>
-                    {this.getAllCurrenciesFields()}
-                </DropdownButton>
+                        <div style={{display: 'flex'}}>
+                            <div className={'header-personal-settings'}>
+                                <DropdownButton id="dropdown-item-button" title={AppLanguages[this.props.lang]} variant='light'>
+                                    {this.renderAllLanguagesFields()}
+                                </DropdownButton>
 
-                <Link to={'/cart'}><Button variant='secondary'>{locale.cart[this.props.lang]} ({this.getPizzaOrderCount()})</Button></Link>
+                                <DropdownButton
+                                    id="dropdown-item-button"
+                                    title={AppCurrencies[this.props.currency]}
+                                    variant='light'
+                                    className={'header-personal-currency'}
+                                >
+                                    {this.renderAllCurrenciesFields()}
+                                </DropdownButton>
+                            </div>
 
-                {
-                    this.props.isSignedIn
-                        ? (
-                            <>
-                                <Dropdown>
-                                    <Dropdown.Toggle variant="success" id="dropdown-basic">
-                                        {this.props.userName}
-                                    </Dropdown.Toggle>
+                            <div className={'header-personal-btn'}>
+                                { this.renderAuthBlock() }
 
-                                    <Dropdown.Menu>
-                                        <Dropdown.Item
-                                            as="button"
-                                            onClick={() => {
-                                                this.props.onLogOut()
-                                                this.props.history.push('/')
-                                            }}
-                                        >
-                                            {locale.logout[this.props.lang]}
-                                        </Dropdown.Item>
-                                     <Link to={'/history'}><Dropdown.Item as='button'>{locale.history[this.props.lang]}</Dropdown.Item></Link>
+                                <Link to={'/cart'}>
+                                    <Button
+                                        variant='secondary'
+                                        className={'header-personal-cart'}
+                                    >
+                                        {locale.cart[this.props.lang]} ({this.renderPizzaOrderCount()})
+                                    </Button>
+                                </Link>
+                            </div>
+                        </div>
 
-                                    </Dropdown.Menu>
-                                </Dropdown>
-                            </>
-                        )
-                        : <Link to={'/auth'}><Button variant='info'>{locale.auth[this.props.lang]}</Button></Link>
-                }
-
+                </div>
             </Navbar>
         )
     }
@@ -143,3 +173,10 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Header))
+
+
+export function renderFlagByCountryTag(tag: string) {
+    return (
+        <span className={`flag-icon flag-icon-${tag}`}></span>
+    )
+}

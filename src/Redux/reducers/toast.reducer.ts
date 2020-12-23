@@ -14,7 +14,7 @@ export default function toastReducer(state = initialState, action) {
             return {...state, enqueue}
 
         case REMOVE_TOAST_FROM_ENQUEUE:
-            const newEnqueue = state.enqueue.filter(x=> x != action.payload)
+            const newEnqueue = state.enqueue.filter(x => x != action.payload)
 
             return {...state, enqueue: newEnqueue}
     }
