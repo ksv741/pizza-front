@@ -35,9 +35,9 @@ class MainPage extends React.Component<MainPageProps, React.ComponentState> {
 
         if (!currentEnqueue.length) return null
 
-        return currentEnqueue.map(toast => {
+        return currentEnqueue.map((toast, index) => {
             const pizza = this.props.menu.find(x => x.alias == toast)
-            return <ToastItem key={pizza.alias} item={pizza}/>
+            return <ToastItem key={`${pizza.alias}-${index}`} item={pizza}/>
         })
     }
 
