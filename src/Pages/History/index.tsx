@@ -43,7 +43,7 @@ class HistoryPage extends React.Component<HistoryPageType> {
 
                 return (
                     <div key={order.alias}>
-                        <strong>{order.alias}</strong>
+                        <strong>{findPizza.title[this.props.lang]}</strong>
                         :
                         <span>{order.count}</span>
                         <hr/>
