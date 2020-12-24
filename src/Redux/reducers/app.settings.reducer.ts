@@ -21,8 +21,8 @@ import {
 } from "../actions/actionTypes";
 
 const initialState: AppSettingsType = {
-    lang: getFromLocalStorage('lang') || 'rus',
-    currency: getFromLocalStorage('currency') || 'rub',
+    lang: getFromLocalStorage('lang') || 'eng',
+    currency: getFromLocalStorage('currency') || 'usd',
     menu: [
         {
             alias: 'Pepperoni',
