@@ -74,7 +74,7 @@ const initialState: AppSettingsType = {
             },
             price: {
                 sum: 9,
-                currency: 'eur'
+                currency: 'usd'
             },
             image: bbqImg
         },
@@ -92,7 +92,7 @@ const initialState: AppSettingsType = {
             },
             price: {
                 sum: 9,
-                currency: 'eur'
+                currency: 'usd'
             },
             image: dolceVitaImg
         },
@@ -110,7 +110,7 @@ const initialState: AppSettingsType = {
             },
             price: {
                 sum: 9,
-                currency: 'eur'
+                currency: 'usd'
             },
             image: koloradoImg
         },
@@ -128,7 +128,7 @@ const initialState: AppSettingsType = {
             },
             price: {
                 sum: 9,
-                currency: 'eur'
+                currency: 'usd'
             },
             image: carbonaraImg
         },
@@ -146,7 +146,7 @@ const initialState: AppSettingsType = {
             },
             price: {
                 sum: 9,
-                currency: 'eur'
+                currency: 'usd'
             },
             image: sardiniaImg
         },
@@ -164,7 +164,7 @@ const initialState: AppSettingsType = {
             },
             price: {
                 sum: 9,
-                currency: 'eur'
+                currency: 'usd'
             },
             image: saragosaImg
         },
